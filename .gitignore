@@ -1,0 +1,32 @@
+# === Re-clonable / recreatable — never commit ===
+# cloned ardupilot + wiki (~2.2 GB, has own .git); re-clone at SHA in .kb/MANIFEST.json
+.kb/corpus/
+# python virtualenv (~518 MB); recreate from .kb/requirements.txt
+.kb/venv/
+# intermediate AST/section chunks (~46 MB); index is derived from these, not needed at runtime
+.kb/chunks/
+
+# === Regenerable, NOT needed by ask.py / serve_eval (rebuild via phase3_build.py) ===
+# BM25 lexical index (~64 MB); only phase3_eval.py uses it
+.kb/index/bm25/
+# top-level index json (chunk maps, indexer progress) — regenerable
+.kb/index/*.json
+
+# === COMMITTED for immediate run after clone (do NOT add to ignore): ===
+#   .kb/structured/kb.duckdb        (deterministic layer, 14 MB)
+#   .kb/index/lancedb/              (semantic vector store, 376 MB)
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs, eval reports & progress (generated)
+*.log
+.kb/eval/*_report*.json
+.kb/eval/*progress*.json
+.kb/structured/parse_errors*.json
+
+# OS
+.DS_Store
+Thumbs.db

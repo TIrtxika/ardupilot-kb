@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Edit",
+      "Write",
+      "Bash(git clone:*)",
+      "Bash(git -C .kb/corpus:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(pip install:*)",
+      "Bash(uv:*)",
+      "Bash(ollama:*)",
+      "Bash(duckdb:*)"
+    ],
+    "deny": [
+      "Write(.kb/corpus/**)",
+      "Edit(.kb/corpus/**)",
+      "Bash(rm -rf:*)"
+    ],
+    "ask": [
+      "Bash(curl:*)",
+      "Bash(wget:*)"
+    ]
+  },
+  "env": {
+    "KB_ROOT": ".kb",
+    "KB_EMBED_MODEL": "bge-m3",
+    "KB_GEN_MODEL": "llama3.1:8b",
+    "KB_VECTOR_STORE": "lancedb"
+  }
+}

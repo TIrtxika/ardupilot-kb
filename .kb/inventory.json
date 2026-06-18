@@ -1,0 +1,153 @@
+{
+  "generated_date": "2026-06-17",
+  "ardupilot_sha": "20622a390035d439268cb40583b8fb62c033ed50",
+  "wiki_sha": "f8c078cb7cc3df01a0987dfba9d3b2b475055f7e",
+
+  "categories": {
+    "cpp_source": {
+      "description": "C++ source and header files (*.cpp, *.h) in ardupilot repo",
+      "file_count": {
+        "cpp": 1642,
+        "h": 1587,
+        "total": 3229
+      },
+      "total_bytes": 28502467,
+      "note": "cpp: 18,517,793 bytes; h: 9,984,674 bytes"
+    },
+    "rst_docs": {
+      "description": "RST documentation files in ardupilot_wiki repo",
+      "file_count": 1519,
+      "total_bytes": 10798895,
+      "note": "ardupilot source repo contains 0 RST files directly; all RST is in wiki"
+    },
+    "parameter_metadata": {
+      "description": "Parameter definition XML (*.pdef.xml) — these are GENERATED files",
+      "file_count": 0,
+      "total_bytes": 0,
+      "note": "No .pdef.xml present in shallow clone (generated at build time, not committed). Parameter metadata is embedded as PARAM_DEFINE macros in C++ source."
+    },
+    "mavlink_xml": {
+      "description": "MAVLink message definition XML files (modules/mavlink submodule)",
+      "file_count": 0,
+      "total_bytes": 0,
+      "note": "ABSENT — submodule modules/mavlink not initialized. Pinned SHA: 035ffa630d54de8e5fc0f4fafc32182287738819. Run: git -C .kb/corpus/ardupilot submodule update --init --depth 1 modules/mavlink"
+    },
+    "dronecan_dsdl": {
+      "description": "DroneCAN DSDL schema files (modules/DroneCAN/DSDL submodule)",
+      "file_count": 0,
+      "total_bytes": 0,
+      "note": "ABSENT — submodule modules/DroneCAN/DSDL not initialized. Pinned SHA: 04e0e818b06c180eb1720fcdf16484d0f12895ee."
+    },
+    "lua_scripts": {
+      "description": "Lua scripts in ardupilot repo (primarily libraries/AP_Scripting)",
+      "file_count": 258,
+      "total_bytes": 1822033
+    },
+    "build_files": {
+      "description": "wscript build files + Python files in Tools/",
+      "wscript": {
+        "file_count": 118,
+        "total_bytes": 68111
+      },
+      "python_tools": {
+        "description": "*.py files under Tools/",
+        "file_count": 193,
+        "total_bytes": 3825684
+      },
+      "python_all": {
+        "description": "All *.py files in ardupilot repo (includes Tools/, libraries/, etc.)",
+        "file_count": 277,
+        "total_bytes": 4973439
+      }
+    },
+    "other_xml": {
+      "description": "XML files in ardupilot repo (excluding empty submodule dirs)",
+      "file_count": 31,
+      "total_bytes": 185472,
+      "note": "Primarily CI and board configuration XML; not MAVLink definitions (those are in the uninitialized submodule)"
+    },
+    "wiki_images_other": {
+      "description": "Non-RST files in wiki (images, Python scripts, etc.)",
+      "wiki_python_files": 26,
+      "total_disk_bytes": {
+        "ardupilot_corpus_excluding_git": 461889881,
+        "wiki_corpus_excluding_git": 804232456,
+        "note": "Wiki is larger due to images stored in repo"
+      }
+    }
+  },
+
+  "domain_dir_mapping": {
+    "hal_boards": [
+      "libraries/AP_HAL",
+      "libraries/AP_HAL_ChibiOS",
+      "libraries/AP_HAL_Linux",
+      "libraries/AP_HAL_ESP32"
+    ],
+    "sensors": [
+      "libraries/AP_InertialSensor",
+      "libraries/AP_GPS",
+      "libraries/AP_Compass",
+      "libraries/AP_Baro",
+      "libraries/AP_RangeFinder",
+      "libraries/AP_Airspeed"
+    ],
+    "state_estimation": [
+      "libraries/AP_NavEKF",
+      "libraries/AP_NavEKF2",
+      "libraries/AP_NavEKF3",
+      "libraries/AP_AHRS"
+    ],
+    "control": [
+      "libraries/AC_AttitudeControl",
+      "libraries/AC_PosControl",
+      "libraries/AC_WPNav",
+      "libraries/AP_Motors",
+      "libraries/APM_Control"
+    ],
+    "vehicle_copter": ["ArduCopter"],
+    "vehicle_plane": ["ArduPlane"],
+    "vehicle_rover": ["Rover"],
+    "vehicle_sub": ["ArduSub"],
+    "vehicle_blimp": ["Blimp"],
+    "vehicle_antennatracker": ["AntennaTracker"],
+    "comms": [
+      "libraries/GCS_MAVLink",
+      "libraries/AP_DroneCAN",
+      "modules/mavlink"
+    ],
+    "scripting": ["libraries/AP_Scripting"],
+    "infra_crosscutting": [
+      "libraries/AP_Param",
+      "libraries/AP_Scheduler",
+      "libraries/AP_Logger",
+      "libraries/StorageManager"
+    ]
+  },
+
+  "vehicle_source_breakdown": {
+    "ArduCopter":     {"files": 92, "bytes": 195046},
+    "ArduPlane":      {"files": 86, "bytes": 167624},
+    "Rover":          {"files": 52, "bytes": 82316},
+    "ArduSub":        {"files": 50, "bytes": 75854},
+    "Blimp":          {"files": 39, "bytes": 52109},
+    "AntennaTracker": {"files": 27, "bytes": 26268}
+  },
+
+  "wiki_top_level_dirs": [
+    "antennatracker", "ardupilot", "blimp", "common", "copter",
+    "dev", "frontend", "images", "logos", "mavproxy", "misc",
+    "plane", "planner", "planner2", "rover", "scripts", "sub"
+  ],
+
+  "split_summary": {
+    "code_bytes": 28502467,
+    "docs_bytes": 10798895,
+    "lua_bytes": 1822033,
+    "build_py_bytes": 4973439,
+    "build_wscript_bytes": 68111,
+    "other_xml_bytes": 185472,
+    "mavlink_xml_bytes": "ABSENT (submodule not initialized)",
+    "dronecan_dsdl_bytes": "ABSENT (submodule not initialized)"
+  }
+}

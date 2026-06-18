@@ -1,0 +1,1510 @@
+{
+  "total_params": 3406,
+  "resolved_with_group": 2846,
+  "top_level_or_empty": 560,
+  "unresolved_count": 157,
+  "ambiguous_count": 720,
+  "unresolved": [
+    {
+      "id": 854,
+      "name": "RATE",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_CommandModel.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 855,
+      "name": "EXPO",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_CommandModel.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 856,
+      "name": "RATE_TC",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_CommandModel.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 950,
+      "name": "PARAM1",
+      "vehicle": null,
+      "file": "libraries/AC_CustomControl/AC_CustomControl_Empty.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 951,
+      "name": "PARAM2",
+      "vehicle": null,
+      "file": "libraries/AC_CustomControl/AC_CustomControl_Empty.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 952,
+      "name": "PARAM3",
+      "vehicle": null,
+      "file": "libraries/AC_CustomControl/AC_CustomControl_Empty.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1011,
+      "name": "P",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1012,
+      "name": "I",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1013,
+      "name": "D",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1014,
+      "name": "FF",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1015,
+      "name": "IMAX",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1016,
+      "name": "ILMI",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1017,
+      "name": "FLTT",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1018,
+      "name": "FLTE",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1019,
+      "name": "FLTD",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1020,
+      "name": "SMAX",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1021,
+      "name": "PDMX",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1022,
+      "name": "D_FF",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1023,
+      "name": "NTF",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1024,
+      "name": "NEF",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_HELI_PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1025,
+      "name": "P",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_P.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1026,
+      "name": "P",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PI.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1027,
+      "name": "I",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PI.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1028,
+      "name": "IMAX",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PI.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1042,
+      "name": "P",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_2D.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1043,
+      "name": "I",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_2D.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1044,
+      "name": "IMAX",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_2D.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1045,
+      "name": "FLTE",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_2D.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1046,
+      "name": "D",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_2D.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1047,
+      "name": "FLTD",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_2D.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1048,
+      "name": "FF",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_2D.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1049,
+      "name": "P",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_Basic.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1050,
+      "name": "I",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_Basic.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1051,
+      "name": "IMAX",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_Basic.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1052,
+      "name": "FLTE",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_Basic.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1053,
+      "name": "D",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_Basic.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1054,
+      "name": "FLTD",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_Basic.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1055,
+      "name": "FF",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PID_Basic.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1056,
+      "name": "P",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PI_2D.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1057,
+      "name": "I",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PI_2D.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1058,
+      "name": "IMAX",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PI_2D.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1059,
+      "name": "FILT_HZ",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_PI_2D.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1060,
+      "name": "P",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_P_1D.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1061,
+      "name": "P",
+      "vehicle": null,
+      "file": "libraries/AC_PID/AC_P_2D.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1596,
+      "name": "TYPE",
+      "vehicle": null,
+      "file": "libraries/AP_DAC/AP_DAC_Params.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1597,
+      "name": "BUS",
+      "vehicle": null,
+      "file": "libraries/AP_DAC/AP_DAC_Params.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1598,
+      "name": "ADDR",
+      "vehicle": null,
+      "file": "libraries/AP_DAC/AP_DAC_Params.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1599,
+      "name": "VREF",
+      "vehicle": null,
+      "file": "libraries/AP_DAC/AP_DAC_Params.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 1600,
+      "name": "VOLTS",
+      "vehicle": null,
+      "file": "libraries/AP_DAC/AP_DAC_Params.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2034,
+      "name": "TYPE",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_MotorsHeli_Swash.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2035,
+      "name": "COL_DIR",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_MotorsHeli_Swash.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2036,
+      "name": "LIN_SVO",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_MotorsHeli_Swash.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2037,
+      "name": "PHANG",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_MotorsHeli_Swash.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2038,
+      "name": "H3_ENABLE",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_MotorsHeli_Swash.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2039,
+      "name": "H3_SV1_POS",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_MotorsHeli_Swash.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2040,
+      "name": "H3_SV2_POS",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_MotorsHeli_Swash.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2041,
+      "name": "H3_SV3_POS",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_MotorsHeli_Swash.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2066,
+      "name": "THST_EXPO",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_Motors_Thrust_Linearization.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2067,
+      "name": "SPIN_MIN",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_Motors_Thrust_Linearization.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2068,
+      "name": "SPIN_MAX",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_Motors_Thrust_Linearization.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2069,
+      "name": "BAT_IDX",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_Motors_Thrust_Linearization.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2070,
+      "name": "BAT_V_MAX",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_Motors_Thrust_Linearization.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2071,
+      "name": "BAT_V_MIN",
+      "vehicle": null,
+      "file": "libraries/AP_Motors/AP_Motors_Thrust_Linearization.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2501,
+      "name": "_EN",
+      "vehicle": null,
+      "file": "libraries/AP_OSD/AP_OSD_Setting.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2502,
+      "name": "_X",
+      "vehicle": null,
+      "file": "libraries/AP_OSD/AP_OSD_Setting.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2503,
+      "name": "_Y",
+      "vehicle": null,
+      "file": "libraries/AP_OSD/AP_OSD_Setting.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2931,
+      "name": "P",
+      "vehicle": null,
+      "file": "libraries/PID/PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2932,
+      "name": "I",
+      "vehicle": null,
+      "file": "libraries/PID/PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2933,
+      "name": "D",
+      "vehicle": null,
+      "file": "libraries/PID/PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 2934,
+      "name": "IMAX",
+      "vehicle": null,
+      "file": "libraries/PID/PID.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3316,
+      "name": "FORMAT_VERSION",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3317,
+      "name": "CAN_NODE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3318,
+      "name": "CAN_BAUDRATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3319,
+      "name": "CAN_SLCAN_CPORT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3320,
+      "name": "CAN_TERMINATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3321,
+      "name": "CAN_PROTOCOL",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3322,
+      "name": "CAN2_BAUDRATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3323,
+      "name": "CAN2_PROTOCOL",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3324,
+      "name": "CAN2_TERMINATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3325,
+      "name": "CAN3_BAUDRATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3326,
+      "name": "CAN3_PROTOCOL",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3327,
+      "name": "CAN3_TERMINATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3328,
+      "name": "CAN_FDMODE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3329,
+      "name": "CAN_FDBAUDRATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3330,
+      "name": "CAN2_FDBAUDRATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3331,
+      "name": "FLASH_BOOTLOADER",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3332,
+      "name": "DEBUG",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3333,
+      "name": "BRD_SERIAL_NUM",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3334,
+      "name": "BUZZER_VOLUME",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3335,
+      "name": "GPS_PORT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3336,
+      "name": "MB_CAN_PORT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3337,
+      "name": "BATT_HIDE_MASK",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3338,
+      "name": "BARO_ENABLE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3339,
+      "name": "LED_BRIGHTNESS",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3340,
+      "name": "RNGFND_BAUDRATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3341,
+      "name": "RNGFND_PORT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3342,
+      "name": "RNGFND2_BAUDRATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3343,
+      "name": "RNGFND2_PORT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3344,
+      "name": "RNGFND_MAX_RATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3345,
+      "name": "ADSB_BAUDRATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3346,
+      "name": "ADSB_PORT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3347,
+      "name": "HARDPOINT_ID",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3348,
+      "name": "HARDPOINT_RATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3349,
+      "name": "ESC_NUMBER",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3350,
+      "name": "ESC_RATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3351,
+      "name": "ESC_PWM_TYPE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3352,
+      "name": "ESC_CMD_TIMO",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3353,
+      "name": "ESC_TELEM_PORT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3354,
+      "name": "ESC_TELEM_RATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3355,
+      "name": "MSP_PORT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3356,
+      "name": "LOG_BITMASK",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3357,
+      "name": "EFI_BAUDRATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3358,
+      "name": "EFI_PORT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3359,
+      "name": "PRX_BAUDRATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3360,
+      "name": "PRX_PORT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3361,
+      "name": "PRX_MAX_RATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3362,
+      "name": "ESC_APD_SERIAL_1",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3363,
+      "name": "ESC_APD_SERIAL_2",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3364,
+      "name": "CAN_MIRROR_PORTS",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3365,
+      "name": "TEMP_MSG_RATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3366,
+      "name": "OPTIONS",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3367,
+      "name": "RPM_MSG_RATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3368,
+      "name": "ESC_EXT_TLM_RATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3369,
+      "name": "IMU_SAMPLE_RATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3370,
+      "name": "SRV_CMD_TIME_OUT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3371,
+      "name": "SRV_TLM_MSG_RATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/Parameters.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3372,
+      "name": "_NUM_CHANS",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/actuator_telem.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3373,
+      "name": "_CURR_PIN1",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/actuator_telem.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3374,
+      "name": "_AMP_OFFSET",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/actuator_telem.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3375,
+      "name": "_AMP_PERVLT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/actuator_telem.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3376,
+      "name": "_CURR_MAX",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/actuator_telem.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3377,
+      "name": "_NUM_CELLS",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/batt_balance.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3378,
+      "name": "_ID",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/batt_balance.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3379,
+      "name": "_RATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/batt_balance.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3380,
+      "name": "_CELL1_PIN",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/batt_balance.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3381,
+      "name": "_NUM_CYCLES",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/battery_tag.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3382,
+      "name": "_ARM_HOURS",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/battery_tag.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3383,
+      "name": "_CAPACITY",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/battery_tag.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3384,
+      "name": "_FIRST_USE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/battery_tag.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3385,
+      "name": "_LAST_USE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/battery_tag.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3386,
+      "name": "_SERIAL",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/battery_tag.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3387,
+      "name": "_CYCLE_MIN",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/battery_tag.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3388,
+      "name": "PPP_PORT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/networking.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3389,
+      "name": "PPP_BAUD",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/networking.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3390,
+      "name": "ENABLE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/networking_passthru.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3391,
+      "name": "EP1",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/networking_passthru.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3392,
+      "name": "EP2",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/networking_passthru.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3393,
+      "name": "BAUD1",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/networking_passthru.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3394,
+      "name": "BAUD2",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/networking_passthru.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3395,
+      "name": "OPT1",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/networking_passthru.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3396,
+      "name": "OPT2",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/networking_passthru.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3397,
+      "name": "_PROTOCOLS",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/rc_in.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3398,
+      "name": "_MSGRATE",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/rc_in.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3399,
+      "name": "1_PORT",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/rc_in.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3400,
+      "name": "1_PORT_OPTIONS",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/rc_in.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3401,
+      "name": "OPTIONS",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/serial_options_dev.cpp",
+      "note": "file not found in prefix_map"
+    },
+    {
+      "id": 3402,
+      "name": "RTSCTS",
+      "vehicle": null,
+      "file": "Tools/AP_Periph/serial_options_dev.cpp",
+      "note": "file not found in prefix_map"
+    }
+  ],
+  "ambiguous": [
+    {
+      "id": 707,
+      "name": "RATE_FF_ENAB",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 708,
+      "name": "ANGLE_BOOST",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 709,
+      "name": "ANG_RLL_P",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 710,
+      "name": "ANG_PIT_P",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 711,
+      "name": "ANG_YAW_P",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 712,
+      "name": "ANG_LIM_TC",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 713,
+      "name": "RATE_R_MAX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 714,
+      "name": "RATE_P_MAX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 715,
+      "name": "RATE_Y_MAX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 716,
+      "name": "INPUT_TC",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 717,
+      "name": "LAND_R_MULT",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 718,
+      "name": "LAND_P_MULT",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 719,
+      "name": "LAND_Y_MULT",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 720,
+      "name": "ANGLE_MAX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 721,
+      "name": "RATE_WPY_MAX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 722,
+      "name": "ACC_Y_MAX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 723,
+      "name": "ACC_R_MAX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 724,
+      "name": "ACC_P_MAX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 766,
+      "name": "RAT_RLL_P",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 767,
+      "name": "RAT_RLL_I",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 768,
+      "name": "RAT_RLL_IMAX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 769,
+      "name": "RAT_RLL_D",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 770,
+      "name": "RAT_RLL_FF",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 771,
+      "name": "RAT_RLL_FLTT",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 772,
+      "name": "RAT_RLL_FLTE",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 773,
+      "name": "RAT_RLL_FLTD",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 774,
+      "name": "RAT_RLL_SMAX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 775,
+      "name": "RAT_RLL_PDMX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 776,
+      "name": "RAT_RLL_D_FF",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 777,
+      "name": "RAT_RLL_NTF",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 778,
+      "name": "RAT_RLL_NEF",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 779,
+      "name": "RAT_PIT_P",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 780,
+      "name": "RAT_PIT_I",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 781,
+      "name": "RAT_PIT_IMAX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 782,
+      "name": "RAT_PIT_D",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 783,
+      "name": "RAT_PIT_FF",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 784,
+      "name": "RAT_PIT_FLTT",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 785,
+      "name": "RAT_PIT_FLTE",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 786,
+      "name": "RAT_PIT_FLTD",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 787,
+      "name": "RAT_PIT_SMAX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 788,
+      "name": "RAT_PIT_PDMX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 789,
+      "name": "RAT_PIT_D_FF",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 790,
+      "name": "RAT_PIT_NTF",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 791,
+      "name": "RAT_PIT_NEF",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 792,
+      "name": "RAT_YAW_P",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 793,
+      "name": "RAT_YAW_I",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 794,
+      "name": "RAT_YAW_IMAX",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 795,
+      "name": "RAT_YAW_D",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 796,
+      "name": "RAT_YAW_FF",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    },
+    {
+      "id": 797,
+      "name": "RAT_YAW_FLTT",
+      "vehicle": null,
+      "file": "libraries/AC_AttitudeControl/AC_AttitudeControl_Multi.cpp",
+      "prefixes_note": "ambiguous: ['ATC_', 'Q_A_']",
+      "chosen_prefix": "ATC_"
+    }
+  ]
+}

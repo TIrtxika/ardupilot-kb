@@ -1,0 +1,34 @@
+{
+  "repos": [
+    {
+      "name": "ardupilot",
+      "url": "https://github.com/ArduPilot/ardupilot",
+      "sha": "20622a390035d439268cb40583b8fb62c033ed50",
+      "clone_date": "2026-06-17",
+      "clone_depth": 1,
+      "local_path": ".kb/corpus/ardupilot",
+      "notes": "Shallow clone of default branch (master) HEAD. Submodules NOT initialized — 15 submodules are pinned by SHA in .gitmodules (reproducible) but content not fetched. MAVLink XML and DroneCAN DSDL are absent from working tree."
+    },
+    {
+      "name": "ardupilot_wiki",
+      "url": "https://github.com/ArduPilot/ardupilot_wiki",
+      "sha": "f8c078cb7cc3df01a0987dfba9d3b2b475055f7e",
+      "clone_date": "2026-06-17",
+      "clone_depth": 1,
+      "local_path": ".kb/corpus/ardupilot_wiki",
+      "notes": "Shallow clone of default branch HEAD. No submodules."
+    }
+  ],
+  "reproducibility_flags": [
+    {
+      "severity": "WARNING",
+      "flag": "submodules_not_initialized",
+      "detail": "ardupilot declares 15 submodules. All are pinned by exact SHA in .gitmodules (GOOD), but were not fetched in this shallow clone. Missing content: modules/mavlink (MAVLink message XML definitions), modules/DroneCAN/DSDL (DroneCAN DSDL schemas), modules/DroneCAN/libcanard, modules/ChibiOS, plus 11 others. To fetch: git -C .kb/corpus/ardupilot submodule update --init --depth 1 modules/mavlink modules/DroneCAN"
+    },
+    {
+      "severity": "INFO",
+      "flag": "write_deny_rule_active",
+      "detail": "settings.json denies Write(.kb/corpus/**). MANIFEST.json and inventory.json are placed at .kb/ root instead of .kb/corpus/ as originally specified. The deny rule is intentional (corpus is read-only ground truth) but blocks metadata files that canonically belong inside corpus/."
+    }
+  ]
+}
