@@ -17,6 +17,7 @@ V=.kb/venv/bin/python3
 echo "== Phase 1: deterministic layer (symbols, params, messages) =="
 $V .kb/build_symbol_graph.py            # tree-sitter symbols + call graph (DELETES & rebuilds DB)
 $V .kb/scripts/libclang_augment.py      # libclang recovers #if-gated classes tree-sitter missed
+$V .kb/scripts/libclang_callgraph.py    # libclang type-resolved high-confidence call edges (~9 min)
 $V .kb/scripts/build_params_messages.py # params + MAVLink/DroneCAN messages
 $V .kb/scripts/fix_param_groups.py      # qualified param names (full_name = group + leaf)
 

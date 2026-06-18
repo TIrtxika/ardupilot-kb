@@ -242,8 +242,27 @@ RESOLVED the intermittent "empty ANSWER": NOT a system bug — my diagnostic `gr
 "ensure"; I'd added it for the zoxide warning). audit() never returns empty (verified). Added a
 defensive guard anyway: audit() now collapses whitespace-only kept -> "Not supported...".
 
+## Improvements batch (2026-06-18) — #1,#2,#4,#5,#6 DONE, all eval-gated, pushed
+
+- #1 ROUTER: added PARAM_PREFIX_PATTERNS (EK3_/ATC_/INS_/SERIAL\d*_/GPS\d*_/...) to phase3_router.
+  `EK3_HGT_DELAY` now routes to [state_estimation, infra] instead of all-13 fallback. routing 62/62.
+- #2 CONFIGURABLE GEN: ask.py reads KB_GEN_MODEL/KB_EMBED_MODEL from env + graceful fallback to
+  llama3.1:8b if the configured model errors/OOMs (set KB_GEN_MODEL=qwen3-30b when >14 GB RAM free).
+- #4 LIBCLANG CALL GRAPH: `.kb/scripts/libclang_callgraph.py` — best-effort libclang (no
+  compile_commands), 1545 .cpp parsed, 90.7% CALL_EXPR resolved, +18,604 high-confidence call
+  edges (deduped, idempotent via __libclang__ marker; tree-sitter edges untouched). High-conf call
+  share 35.5% -> 54.7%; callers_of/callees_of far more complete. 8.6 min runtime. DB backed up to
+  kb.duckdb.bak (gitignored). NOTE: relationship gold answers were built on old edges and are now
+  conservative subsets — regenerate if exact relationship grading is added.
+- #5 REBUILD: `.kb/rebuild.sh` runs the whole pipeline in order (incl. callgraph + repack + eval).
+- #6 BM25 TOKENIZER: split on _/punct (build_bm25/phase3_build/phase3_eval) -> EK3_HGT_DELAY
+  tokenizes to ek3 hgt delay. BM25@5 28.3% -> 43.6%. (BM25 still not in ask.py serve path.)
+All verified: serve eval 55/55, vector@5 89.1%, routing 62/62, largest LanceDB fragment <28 MB.
+
 ## Open follow-ups (logged, eval-gated)
-- Full call-graph type resolution via libclang + compile_commands (upgrade low-conf call edges).
+- (#3) Semantic auditor: LLM/NLI judge atop the deterministic auditor for semantically-wrong-but-
+  token-present claims.
+- compile_commands-grade call resolution (vs current best-effort 90.7%) if a SITL build is set up.
 - Grow gold with localization Qs for now-recovered classes (AP_AHRS/AP_GPS/AP_Scheduler) to lock the win.
 - Router over-fires to all 13 domains for `EK3_`-style param-prefix queries — add prefix->domain rule.
 - BM25 tokenizer cleanup (split on _/punct) — BM25 is a secondary, non-served signal.
