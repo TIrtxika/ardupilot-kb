@@ -2,7 +2,13 @@
 
 Snapshot of where the ArduPilot KB build stands. Use this to resume in a later session.
 
-_Last updated: 2026-06-17T14:23Z_
+_Last updated: 2026-06-18_
+
+**Published:** https://github.com/TIrtxika/ardupilot-kb (public, branch `main`, commit `0f548fe`+).
+Runtime artifacts committed (`.kb/structured/kb.duckdb` + `.kb/index/lancedb/`) so a fresh clone
+runs immediately — no re-index needed. corpus/venv/chunks/bm25 are gitignored (rebuild via USAGE.md).
+Note: a 95.6 MB `.lance` file exceeds GitHub's recommended 50 MB; if a future re-index pushes any
+file past 100 MB, switch `*.lance` to Git LFS. Setup/usage: see `USAGE.md`.
 
 ## Pinned source (hard rule #7)
 
