@@ -300,9 +300,20 @@ Only sem-02 (`return ... * 100;` read as "divides by 100") still missed by the 8
 serve_eval with KB_SEMANTIC_AUDIT=1 stays 55/55. This makes the default LLM judge (B) strictly
 better than the NLI option (C, 70%); C remains opt-in for persistent-server latency only.
 
+## DONE: call-graph cheap middle-ground (2026-06-18) — no build, near-compile_commands
+
+Chose the cheap path over a full waf SITL build (build was infeasible/fragile: missing modules/waf
+submodule + empy/pexpect/future, and g++16/clang22 are too new for ArduPilot @20622a39). Instead
+improved libclang_callgraph.py args: -std=gnu++11, -DCONFIG_HAL_BOARD=HAL_BOARD_SITL,
+-DCONFIG_HAL_BOARD_SUBTYPE=HAL_BOARD_SUBTYPE_NONE, and -I every libraries/* dir + mavlink v2.0.
+Effect: the correct SITL #if branches are now active -> CALL_EXPRs seen 258k -> 309k, net new
+high-confidence call edges 18,604 -> 23,065 (+4,461), high-conf call share 54.7% -> 57.7%
+(resolution rate ~89.8%, ~same but on a larger correct set). serve_eval 55/55.
+
 ## Open follow-ups (logged, eval-gated)
 - sem-02 (arithmetic */÷ flip) needs a stronger gen model (qwen3-30b) or code-exec check; marginal.
-- compile_commands-grade call resolution (vs current best-effort 90.7%) if a SITL build is set up.
+- True compile_commands (full SITL build) would add the generated headers (ap_config.h, mavlink
+  generated dialects) for the last few %; deferred — fragile on g++16/clang22, marginal gain.
 - compile_commands-grade call resolution (vs current best-effort 90.7%) if a SITL build is set up.
 - Grow gold with localization Qs for now-recovered classes (AP_AHRS/AP_GPS/AP_Scheduler) to lock the win.
 - Router over-fires to all 13 domains for `EK3_`-style param-prefix queries — add prefix->domain rule.

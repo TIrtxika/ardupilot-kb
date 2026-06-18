@@ -42,19 +42,24 @@ IDX = cx.Index.create()
 # PARSE_INCOMPLETE: best-effort even with missing headers; do NOT skip function bodies
 PARSE_OPTS = cx.TranslationUnit.PARSE_INCOMPLETE
 
+import glob as _glob, os as _os
+# Every libraries/* dir as an include root (lets same-library unqualified #includes resolve),
+# plus SITL board defines so the HAL_BOARD_SITL #if branches are the active ones (matches how the
+# code actually compiles for SITL). No build needed — approximates compile_commands cheaply.
+_LIB_INCLUDES = [f'-I{d}' for d in sorted(_glob.glob(f'{CORPUS}/libraries/*')) if _os.path.isdir(d)]
 CLANG_ARGS = [
     '-x', 'c++',
-    '-std=c++11',
+    '-std=gnu++11',
     '-ferror-limit=0',
     '-w',                           # suppress warnings
+    '-DCONFIG_HAL_BOARD=HAL_BOARD_SITL',
+    '-DCONFIG_HAL_BOARD_SUBTYPE=HAL_BOARD_SUBTYPE_NONE',
     f'-I{CORPUS}',
     f'-I{CORPUS}/libraries',
     f'-I{CORPUS}/libraries/AP_HAL',
     f'-I{CORPUS}/modules/mavlink',
-    f'-I{CORPUS}/libraries/AP_Common',
-    f'-I{CORPUS}/libraries/AP_Math',
-    f'-I{CORPUS}/libraries/AP_Param',
-]
+    f'-I{CORPUS}/modules/mavlink/include/mavlink/v2.0',
+] + _LIB_INCLUDES
 
 FUNC_KINDS = frozenset({
     cx.CursorKind.FUNCTION_DECL,
