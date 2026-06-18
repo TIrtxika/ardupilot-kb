@@ -261,7 +261,16 @@ All verified: serve eval 55/55, vector@5 89.1%, routing 62/62, largest LanceDB f
 
 ## Open follow-ups (logged, eval-gated)
 - (#3) Semantic auditor: LLM/NLI judge atop the deterministic auditor for semantically-wrong-but-
-  token-present claims.
+  token-present claims. ESTIMATE (2026-06-18):
+    * Approach A per-sentence LLM judge: +20-60s/query runtime; ~1.5h build.
+    * Approach B batch LLM judge (one extra prompt): +10-20s/query; ~1.5-2.5h build.
+    * Approach C local NLI cross-encoder (DeBERTa-NLI / bge-reranker, chunk->claim entailment):
+      +<1s/query; ~3-4h build + model download. RECOMMENDED (keeps serve fast).
+    * REQUIRED first: adversarial gold (~12-15 token-present-but-semantically-false cases) via
+      eval-builder (~30-45min) + measure catch/false-positive + threshold tuning (~1-1.5h CPU).
+    * Totals: quick prototype (B)+eval ~3-4h; proper (C)+eval ~5-6h. ~1/3 of effort is the eval
+      set (without it #3 is unmeasurable, violates rule #2). Start B -> measure -> migrate to C
+      only if eval shows real catch.
 - compile_commands-grade call resolution (vs current best-effort 90.7%) if a SITL build is set up.
 - Grow gold with localization Qs for now-recovered classes (AP_AHRS/AP_GPS/AP_Scheduler) to lock the win.
 - Router over-fires to all 13 domains for `EK3_`-style param-prefix queries — add prefix->domain rule.
