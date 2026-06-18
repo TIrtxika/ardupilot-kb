@@ -289,9 +289,20 @@ invocation + 2 GB torch. So B (LLM judge) stays DEFAULT; C shipped as opt-in for
 Deps isolated in .kb/requirements-nli.txt (NOT in main requirements). Eval-gate prevented
 shipping the tempting high-recall-but-3/4-FP entailment criterion.
 
+## DONE: #3 LLM judge prompt sharpened (2026-06-18) — recall 70% -> 90%, still 0 FP
+
+Diagnosed the 3 misses: subtle code-logic flips (sem-02 *100 vs "divides", sem-05 `< && !armed`
+vs "exceeds ... as long as armed", sem-09 raise vs lower + unstated cause). Sharpened JUDGE_SYS
+to explicitly check arithmetic operators (* vs /), comparison direction (< vs >), logical negation
+(x vs !x) in CODE, and to strike unstated cause/condition claims. Result on adversarial set:
+recall 90% (9/10), precision 100%, FP 0/10, overall 95% — dependency-free (prompt only).
+Only sem-02 (`return ... * 100;` read as "divides by 100") still missed by the 8B model.
+serve_eval with KB_SEMANTIC_AUDIT=1 stays 55/55. This makes the default LLM judge (B) strictly
+better than the NLI option (C, 70%); C remains opt-in for persistent-server latency only.
+
 ## Open follow-ups (logged, eval-gated)
-- Try a fact-verification-tuned model (e.g. MoritzLaurer DeBERTa or a hallucination-detection
-  model) to push #3 recall past 70% while keeping 0 FP (3 hard cases sem-02/05/09 still missed).
+- sem-02 (arithmetic */÷ flip) needs a stronger gen model (qwen3-30b) or code-exec check; marginal.
+- compile_commands-grade call resolution (vs current best-effort 90.7%) if a SITL build is set up.
 - compile_commands-grade call resolution (vs current best-effort 90.7%) if a SITL build is set up.
 - Grow gold with localization Qs for now-recovered classes (AP_AHRS/AP_GPS/AP_Scheduler) to lock the win.
 - Router over-fires to all 13 domains for `EK3_`-style param-prefix queries — add prefix->domain rule.

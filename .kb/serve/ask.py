@@ -270,8 +270,13 @@ def audit(draft, facts, hits, semantic=False):
 JUDGE_SYS = (
     "You are a strict fact-checker. Given CONTEXT (verbatim ArduPilot source/docs) and a CLAIM, "
     "decide if the CONTEXT directly states or implies the CLAIM. Answer with exactly one word: "
-    "SUPPORTED or UNSUPPORTED. Answer UNSUPPORTED if the CLAIM changes, flips, adds, or conflates "
-    "any fact (a number, a direction, a cause, an identifier) versus the CONTEXT.")
+    "SUPPORTED or UNSUPPORTED.\n"
+    "Answer UNSUPPORTED if the CLAIM changes, flips, adds, or conflates ANY fact versus the CONTEXT. "
+    "When the CONTEXT is CODE, check carefully: arithmetic operators (* vs /, + vs -), comparison "
+    "direction (< vs >, <= vs >=), and logical negation (x vs !x) — if the CLAIM uses the opposite "
+    "operator, comparison, or negation, answer UNSUPPORTED. "
+    "Also answer UNSUPPORTED if the CLAIM asserts a cause, effect, default, or condition that the "
+    "CONTEXT does not actually state, even if it reuses the same identifiers or numbers.")
 
 
 def semantic_judge_llm(claim, context_text):
