@@ -259,18 +259,23 @@ defensive guard anyway: audit() now collapses whitespace-only kept -> "Not suppo
   tokenizes to ek3 hgt delay. BM25@5 28.3% -> 43.6%. (BM25 still not in ask.py serve path.)
 All verified: serve eval 55/55, vector@5 89.1%, routing 62/62, largest LanceDB fragment <28 MB.
 
+## DONE: #3 semantic auditor (2026-06-18) — approach B (LLM judge), opt-in
+
+Chose B (per-sentence LLM judge reusing llama3.1:8b) over C (NLI cross-encoder) for THIS box:
+C needs torch (~2 GB) and the judge only runs on the already-slow LLM serve path, so B = no new
+dependency. `ask.semantic_judge(claim, context)` asks the gen model SUPPORTED/UNSUPPORTED; fails
+OPEN (keeps) on error. Wired into audit(semantic=True), gated by env KB_SEMANTIC_AUDIT=1
+(default OFF — adds ~per-cited-sentence LLM call, +10-20s/conceptual query on CPU).
+Adversarial test set: `.kb/eval/semantic_gold.jsonl` (20 items, 10 supported / 10 unsupported,
+real chunks, plausible token-overlapping false claims). Runner: `.kb/scripts/semantic_eval.py`.
+MEASURED: catch-unsupported recall 70% (7/10), precision 100%, false-positives 0/10, overall 85%.
+INTEGRATION eval: serve_eval with KB_SEMANTIC_AUDIT=1 stays 55/55 (judge struck 3 genuinely
+cross-chunk-blended sentences on the RTL conceptual query; final answer still 1042 chars).
+Also fixed a lance `_distance` deprecation warning in retrieve().
+
 ## Open follow-ups (logged, eval-gated)
-- (#3) Semantic auditor: LLM/NLI judge atop the deterministic auditor for semantically-wrong-but-
-  token-present claims. ESTIMATE (2026-06-18):
-    * Approach A per-sentence LLM judge: +20-60s/query runtime; ~1.5h build.
-    * Approach B batch LLM judge (one extra prompt): +10-20s/query; ~1.5-2.5h build.
-    * Approach C local NLI cross-encoder (DeBERTa-NLI / bge-reranker, chunk->claim entailment):
-      +<1s/query; ~3-4h build + model download. RECOMMENDED (keeps serve fast).
-    * REQUIRED first: adversarial gold (~12-15 token-present-but-semantically-false cases) via
-      eval-builder (~30-45min) + measure catch/false-positive + threshold tuning (~1-1.5h CPU).
-    * Totals: quick prototype (B)+eval ~3-4h; proper (C)+eval ~5-6h. ~1/3 of effort is the eval
-      set (without it #3 is unmeasurable, violates rule #2). Start B -> measure -> migrate to C
-      only if eval shows real catch.
+- #3 upgrade to NLI cross-encoder (C) if torch is acceptable -> +<1s/query vs current +10-20s, and
+  push recall >70% (3 hard cases sem-02/05/09 still missed by the 8B judge).
 - compile_commands-grade call resolution (vs current best-effort 90.7%) if a SITL build is set up.
 - Grow gold with localization Qs for now-recovered classes (AP_AHRS/AP_GPS/AP_Scheduler) to lock the win.
 - Router over-fires to all 13 domains for `EK3_`-style param-prefix queries — add prefix->domain rule.

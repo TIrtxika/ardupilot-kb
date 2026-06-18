@@ -46,6 +46,11 @@ If the KB is already built (`.kb/structured/kb.duckdb` + `.kb/index/` present):
 
 Ollama must be running (`ollama serve`) and `bge-m3` + the gen model pulled.
 
+Optional stricter grounding: set `KB_SEMANTIC_AUDIT=1` to add an LLM entailment check that strikes
+conceptual claims not actually supported by their cited chunk (catches ~70% of semantic
+hallucinations the deterministic auditor misses, 0 false positives on the adversarial set). Costs
+~+10-20s per conceptual query on CPU; off by default. Set `KB_GEN_MODEL=qwen3-30b` if >14 GB RAM.
+
 ---
 
 ## 3. Rebuild the KB from scratch

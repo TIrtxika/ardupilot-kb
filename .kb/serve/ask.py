@@ -195,7 +195,7 @@ def retrieve(q, k=6):
         except Exception:
             continue
         for r in t.search(qv).select(
-                ['source_path', 'start_line', 'end_line', 'text']).limit(k).to_list():
+                ['source_path', 'start_line', 'end_line', 'text', '_distance']).limit(k).to_list():
             hits.append((r['_distance'], r['source_path'], r['start_line'], r['end_line'], r['text']))
     hits.sort(key=lambda x: x[0])
     return routed, hits[:k]
@@ -218,7 +218,7 @@ def _split_sentences(text):
     return [s.strip(' \t-*•').strip() for s in raw if s.strip(' \t-*•').strip()]
 
 
-def audit(draft, facts, hits):
+def audit(draft, facts, hits, semantic=False):
     fact_text = "\n".join(facts)
     fact_files = set(re.findall(r'\[([^\]]+?):\d+', fact_text))
     path_text = {}
@@ -250,6 +250,11 @@ def audit(draft, facts, hits):
             ungrounded = [n for n in nums if n not in src]
             if ungrounded:
                 log.append(("STRUCK", f"ungrounded number(s) {ungrounded}", sent)); continue
+        # semantic pass (#3): for cited sentences, verify the cited source actually entails them
+        if semantic and cited_paths:
+            ctx = " ".join(path_text.get(p, "") for p in cited_paths)
+            if not semantic_judge(sent, ctx):
+                log.append(("STRUCK", "semantic: not entailed by cited source", sent)); continue
         kept.append(sent)
         if cited or nums:
             log.append(("KEPT", "grounded", sent))
@@ -257,6 +262,29 @@ def audit(draft, facts, hits):
     if not clean:
         clean = "Not supported by the indexed corpus."
     return clean, log
+
+
+# ── Semantic judge (#3): LLM entailment check on top of the deterministic auditor ───────────────
+# Catches claims that are token-present (pass numeric/citation checks) but NOT actually entailed by
+# the cited source (wrong direction/cause/quantity). Runs only on the LLM serve path.
+JUDGE_SYS = (
+    "You are a strict fact-checker. Given CONTEXT (verbatim ArduPilot source/docs) and a CLAIM, "
+    "decide if the CONTEXT directly states or implies the CLAIM. Answer with exactly one word: "
+    "SUPPORTED or UNSUPPORTED. Answer UNSUPPORTED if the CLAIM changes, flips, adds, or conflates "
+    "any fact (a number, a direction, a cause, an identifier) versus the CONTEXT.")
+
+
+def semantic_judge(claim, context_text):
+    """Return True if context entails claim, False otherwise. Fails OPEN (True) on judge error."""
+    if not context_text.strip():
+        return True
+    prompt = f"{JUDGE_SYS}\n\nCONTEXT:\n{context_text[:1500]}\n\nCLAIM: {claim}\n\nAnswer:"
+    try:
+        r = _post('/api/generate', {'model': GEN_MODEL, 'prompt': prompt, 'stream': False,
+                                    'options': {'temperature': 0, 'num_predict': 4}}, timeout=120)
+        return 'unsupported' not in r.get('response', '').strip().lower()
+    except Exception:
+        return True
 
 
 SYS = (
@@ -294,7 +322,7 @@ def respond(q):
             raise
         # configured model unavailable / OOM / timeout -> fall back to the lightweight model
         draft = _post('/api/generate', {'model': GEN_FALLBACK, **opts}).get('response', '').strip()
-    clean, log = audit(draft, facts, hits)
+    clean, log = audit(draft, facts, hits, semantic=os.environ.get('KB_SEMANTIC_AUDIT') == '1')
     return {'q': q, 'routed': routed, 'facts': facts, 'hits': hits, 'draft': draft,
             'final': clean, 'mode': 'llm', 'struck': sum(1 for x in log if x[0] == 'STRUCK'),
             'log': log}
