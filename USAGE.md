@@ -68,6 +68,7 @@ $V .kb/scripts/phase2_indexer.py        # bge-m3 dense vectors -> LanceDB  (resu
 $V .kb/scripts/build_bm25.py            # BM25 lexical index
 # Phase 3 — per-domain partition + router:
 $V .kb/scripts/phase3_build.py          # per-domain LanceDB tables + BM25 (reuses embeddings)
+$V .kb/scripts/repack_index.py          # split large LanceDB fragments (<25 MB) so the index is git-friendly
 ```
 
 ---
