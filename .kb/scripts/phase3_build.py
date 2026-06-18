@@ -13,7 +13,7 @@ Strategy:
   - Write one BM25 pickle per domain under .kb/index/bm25/domain_<name>.pkl
 """
 
-import sys, json, pickle, time
+import re, sys, json, pickle, time
 from pathlib import Path
 from collections import defaultdict
 
@@ -299,7 +299,7 @@ def main():
                 print(f"  [BM25] {domain}: no text found, skipping")
                 continue
 
-            d_corpus = [cid_to_text[cid].lower().split() for cid in valid_cids]
+            d_corpus = [re.findall(r'[a-z0-9]+', cid_to_text[cid].lower()) for cid in valid_cids]
             print(f"  [BM25] {domain}: {len(valid_cids):,} docs", end='', flush=True)
             bm25_d = BM25Okapi(d_corpus)
 

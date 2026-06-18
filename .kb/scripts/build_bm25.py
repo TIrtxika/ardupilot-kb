@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """Build BM25 index independently of embedding."""
-import sys, json, time, pickle
+import re, sys, json, time, pickle
 from pathlib import Path
+
+# Tokenizer: split on any non-alphanumeric (incl. '_') so identifiers like EK3_HGT_DELAY become
+# ['ek3','hgt','delay'] — lets BM25 match queries that use the qualified name. Must stay identical
+# to the query tokenizer in phase3_eval.py and the per-domain corpus tokenizer in phase3_build.py.
+def tokenize(text: str):
+    return re.findall(r'[a-z0-9]+', text.lower())
 
 KB_ROOT    = Path('/home/o0rt/Projects/homek/ArduPilot/.kb')
 CHUNKS_DIR = KB_ROOT / 'chunks'
@@ -40,7 +46,7 @@ print(f"Loaded {len(chunks)} chunks in {time.time()-t0:.1f}s")
 
 print("Tokenizing...")
 t1 = time.time()
-tokenized = [c.get('text', '').lower().split() for c in chunks]
+tokenized = [tokenize(c.get('text', '')) for c in chunks]
 chunk_ids = [c.get('chunk_id', '') for c in chunks]
 print(f"Tokenized in {time.time()-t1:.1f}s")
 

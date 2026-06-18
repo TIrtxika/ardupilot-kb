@@ -60,6 +60,17 @@ CLASS_PATTERNS = [
 ]
 
 # Keyword patterns -> domain (less specific than class names)
+# Param-name prefixes (anchored on the trailing underscore so e.g. "EK3_HGT_DELAY" matches even
+# though \bEK3\b does not — '_' is a word char). High-confidence, unambiguous prefixes only, to
+# avoid misrouting. Additive: they narrow what was previously a global (all-13) fallback.
+PARAM_PREFIX_PATTERNS = [
+    (re.compile(r'\b(EK2|EK3|EKF|AHRS)_', re.I), 'state_estimation'),
+    (re.compile(r'\b(ATC|PSC|WPNAV|AUTOTUNE)_', re.I), 'control'),
+    (re.compile(r'\b(INS|COMPASS\d*|GPS\d*|BARO\d*|ARSPD\d*|RNGFND\d*|PRX\d*|OA|EAHRS)_', re.I), 'sensors'),
+    (re.compile(r'\b(SERIAL\d*|CAN\d*|MAV|UAVCAN|FRSKY|DDS)_', re.I), 'comms'),
+    (re.compile(r'\b(SCR)_', re.I), 'scripting'),
+]
+
 KEYWORD_PATTERNS = [
     # state_estimation keywords
     (re.compile(r'\b(kalman|ekf|filter|covariance|state.?estimation|imu.?fusion|attitude.?estimation|position.?estimation|velocity.?estimation|AHRS|magnetometer.?fusion|GPS.?fusion)\b', re.I), 'state_estimation'),
@@ -123,6 +134,12 @@ def classify_query(question: str, gold_domain: str = None) -> List[str]:
 
     # ── Rule 2: Class/library name patterns ───────────────────────────────────
     for pattern, domain in CLASS_PATTERNS:
+        if pattern.search(q):
+            if domain not in domains:
+                domains.append(domain)
+
+    # ── Rule 2b: Param-name prefixes (EK3_, ATC_, INS_, ...) ──────────────────
+    for pattern, domain in PARAM_PREFIX_PATTERNS:
         if pattern.search(q):
             if domain not in domains:
                 domains.append(domain)

@@ -10,7 +10,7 @@ its output is gated by the deterministic retrieval-auditor.
 
 Usage: python ask.py "your question"
 """
-import sys, json, re, urllib.request
+import os, sys, json, re, urllib.request
 from pathlib import Path
 
 KB = Path('/home/o0rt/Projects/homek/ArduPilot/.kb')
@@ -20,8 +20,11 @@ import lancedb, duckdb
 from phase3_router import classify_query
 
 OLLAMA = 'http://localhost:11434'
-EMBED_MODEL = 'bge-m3'
-GEN_MODEL = 'llama3.1:8b'
+EMBED_MODEL = os.environ.get('KB_EMBED_MODEL', 'bge-m3')
+# Configurable generation model (e.g. set KB_GEN_MODEL=qwen3-30b when >14 GB RAM is free).
+# Falls back to llama3.1:8b if the configured model errors/times out (see respond()).
+GEN_MODEL = os.environ.get('KB_GEN_MODEL', 'llama3.1:8b')
+GEN_FALLBACK = 'llama3.1:8b'
 SHA = '20622a390035d439268cb40583b8fb62c033ed50'
 VEHICLES = {'arduplane': 'plane', 'arducopter': 'copter', 'copter': 'copter',
             'plane': 'plane', 'rover': 'rover', 'ardusub': 'sub', 'sub': 'sub',
@@ -283,9 +286,14 @@ def respond(q):
     ctx = "\n".join(f"[{sp}:{s}-{e}] {txt[:400]}" for _, sp, s, e, txt in hits)
     factblock = "\n".join(facts) if facts else "(none)"
     prompt = f"{SYS}\n\nFACTS:\n{factblock}\n\nCONTEXT:\n{ctx}\n\nQUESTION: {q}\n\nAnswer:"
-    draft = _post('/api/generate', {'model': GEN_MODEL, 'prompt': prompt, 'stream': False,
-                                    'options': {'temperature': 0, 'num_predict': 800}}
-                  ).get('response', '').strip()
+    opts = {'prompt': prompt, 'stream': False, 'options': {'temperature': 0, 'num_predict': 800}}
+    try:
+        draft = _post('/api/generate', {'model': GEN_MODEL, **opts}).get('response', '').strip()
+    except Exception as e:
+        if GEN_MODEL == GEN_FALLBACK:
+            raise
+        # configured model unavailable / OOM / timeout -> fall back to the lightweight model
+        draft = _post('/api/generate', {'model': GEN_FALLBACK, **opts}).get('response', '').strip()
     clean, log = audit(draft, facts, hits)
     return {'q': q, 'routed': routed, 'facts': facts, 'hits': hits, 'draft': draft,
             'final': clean, 'mode': 'llm', 'struck': sum(1 for x in log if x[0] == 'STRUCK'),

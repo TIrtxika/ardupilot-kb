@@ -304,7 +304,7 @@ def routed_bm25_retrieval(routed_domains: list, query_text: str,
     """
     BM25 retrieval across routed domains. Merge by score.
     """
-    tokens = query_text.lower().split()
+    tokens = re.findall(r'[a-z0-9]+', query_text.lower())  # match build_bm25.tokenize()
     all_results = []  # (score, chunk_id)
 
     for domain in routed_domains:
