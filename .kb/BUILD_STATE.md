@@ -273,9 +273,25 @@ INTEGRATION eval: serve_eval with KB_SEMANTIC_AUDIT=1 stays 55/55 (judge struck 
 cross-chunk-blended sentences on the RTL conceptual query; final answer still 1042 chars).
 Also fixed a lance `_distance` deprecation warning in retrieve().
 
+## DONE: #3 approach C (NLI cross-encoder) — MEASURED, shipped as OPTION, B stays default
+
+torch 2.12.1+cpu has a py3.14 wheel, so C is feasible. Built semantic_eval_nli.py (threshold sweep)
++ semantic_judge_nli() in ask.py, selectable via env KB_SEMANTIC_JUDGE=nli (default 'llm').
+KEY MEASUREMENT (adversarial set, .kb/eval/semantic_nli*.log):
+  - nli-deberta-v3-SMALL: entailment criteria recall 90% but precision 69% / FP 4/10 (over-strikes
+    good claims — labels technical paraphrases non-entailment). WORSE than LLM.
+  - nli-deberta-v3-BASE: entailment criteria recall 100% but FP 3/10. BUT criterion
+    `contradiction_prob >= 0.4 -> strike` gives recall 70%, precision 100%, FP 0/10 — TIES the LLM
+    judge exactly. semantic_judge_nli() uses this contra criterion.
+DECISION: C does NOT improve quality (70%/0-FP tie). Its only edge is latency in a PERSISTENT
+server (~100ms/pair after load) vs LLM (+10-20s); but CLI ask.py pays ~35s model-load per
+invocation + 2 GB torch. So B (LLM judge) stays DEFAULT; C shipped as opt-in for servers.
+Deps isolated in .kb/requirements-nli.txt (NOT in main requirements). Eval-gate prevented
+shipping the tempting high-recall-but-3/4-FP entailment criterion.
+
 ## Open follow-ups (logged, eval-gated)
-- #3 upgrade to NLI cross-encoder (C) if torch is acceptable -> +<1s/query vs current +10-20s, and
-  push recall >70% (3 hard cases sem-02/05/09 still missed by the 8B judge).
+- Try a fact-verification-tuned model (e.g. MoritzLaurer DeBERTa or a hallucination-detection
+  model) to push #3 recall past 70% while keeping 0 FP (3 hard cases sem-02/05/09 still missed).
 - compile_commands-grade call resolution (vs current best-effort 90.7%) if a SITL build is set up.
 - Grow gold with localization Qs for now-recovered classes (AP_AHRS/AP_GPS/AP_Scheduler) to lock the win.
 - Router over-fires to all 13 domains for `EK3_`-style param-prefix queries — add prefix->domain rule.

@@ -46,10 +46,16 @@ If the KB is already built (`.kb/structured/kb.duckdb` + `.kb/index/` present):
 
 Ollama must be running (`ollama serve`) and `bge-m3` + the gen model pulled.
 
-Optional stricter grounding: set `KB_SEMANTIC_AUDIT=1` to add an LLM entailment check that strikes
+Optional stricter grounding: set `KB_SEMANTIC_AUDIT=1` to add an entailment check that strikes
 conceptual claims not actually supported by their cited chunk (catches ~70% of semantic
 hallucinations the deterministic auditor misses, 0 false positives on the adversarial set). Costs
 ~+10-20s per conceptual query on CPU; off by default. Set `KB_GEN_MODEL=qwen3-30b` if >14 GB RAM.
+
+The judge backend is selectable with `KB_SEMANTIC_JUDGE`:
+- `llm` (default) — reuses the gen model; no extra deps; +10-20s/query.
+- `nli` — local NLI cross-encoder (same 70%/0-FP quality, ~100ms/pair after a one-time ~35s model
+  load). Better for a persistent server, worse for one-shot CLI. Needs `pip install -r
+  .kb/requirements-nli.txt` (~2 GB torch) and downloads cross-encoder/nli-deberta-v3-base.
 
 ---
 

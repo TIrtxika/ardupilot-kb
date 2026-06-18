@@ -274,10 +274,8 @@ JUDGE_SYS = (
     "any fact (a number, a direction, a cause, an identifier) versus the CONTEXT.")
 
 
-def semantic_judge(claim, context_text):
-    """Return True if context entails claim, False otherwise. Fails OPEN (True) on judge error."""
-    if not context_text.strip():
-        return True
+def semantic_judge_llm(claim, context_text):
+    """LLM judge (default). True=supported. Fails OPEN on error. Adversarial set: rec 70%, 0 FP."""
     prompt = f"{JUDGE_SYS}\n\nCONTEXT:\n{context_text[:1500]}\n\nCLAIM: {claim}\n\nAnswer:"
     try:
         r = _post('/api/generate', {'model': GEN_MODEL, 'prompt': prompt, 'stream': False,
@@ -285,6 +283,35 @@ def semantic_judge(claim, context_text):
         return 'unsupported' not in r.get('response', '').strip().lower()
     except Exception:
         return True
+
+
+_NLI = None
+
+
+def semantic_judge_nli(claim, context_text):
+    """NLI cross-encoder judge (KB_SEMANTIC_JUDGE=nli). Strike only on contradiction (prob>=0.4) ->
+    rec 70%, 0 FP, same quality as LLM but ~100ms/pair after load (good for persistent servers;
+    needs torch + ~35s one-time model load, so poor for one-shot CLI). Fails OPEN on error."""
+    global _NLI
+    try:
+        if _NLI is None:
+            from sentence_transformers import CrossEncoder
+            _NLI = CrossEncoder(os.environ.get('KB_NLI_MODEL', 'cross-encoder/nli-deberta-v3-base'))
+        import numpy as np
+        logits = np.asarray(_NLI.predict([(context_text[:1500], claim)])[0])
+        contra = float(np.exp(logits[0]) / np.exp(logits).sum())  # label 0 = contradiction
+        return contra < 0.4
+    except Exception:
+        return True
+
+
+def semantic_judge(claim, context_text):
+    """True if the context supports the claim. Dispatches LLM (default) or NLI per KB_SEMANTIC_JUDGE."""
+    if not context_text.strip():
+        return True
+    if os.environ.get('KB_SEMANTIC_JUDGE', 'llm').lower() == 'nli':
+        return semantic_judge_nli(claim, context_text)
+    return semantic_judge_llm(claim, context_text)
 
 
 SYS = (

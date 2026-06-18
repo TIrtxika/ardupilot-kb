@@ -1,0 +1,7 @@
+# OPTIONAL — only for the NLI semantic judge (KB_SEMANTIC_JUDGE=nli). ~2 GB.
+# The default LLM judge (KB_SEMANTIC_AUDIT=1, no KB_SEMANTIC_JUDGE) needs none of this.
+# Install:  .kb/venv/bin/pip install -r .kb/requirements-nli.txt
+# First use downloads the NLI model (cross-encoder/nli-deberta-v3-base, ~440 MB) from HuggingFace.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.12.1+cpu
+sentence-transformers==5.6.0
