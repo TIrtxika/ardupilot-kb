@@ -20,6 +20,7 @@ $V .kb/scripts/libclang_augment.py      # libclang recovers #if-gated classes tr
 $V .kb/scripts/libclang_callgraph.py    # libclang type-resolved high-confidence call edges (~9 min)
 $V .kb/scripts/build_params_messages.py # params + MAVLink/DroneCAN messages
 $V .kb/scripts/fix_param_groups.py      # qualified param names (full_name = group + leaf)
+$V .kb/structured/build_xref_tables.py  # message_handlers + param_bindings cross-reference tables
 
 echo "== Phase 2: retrieval index (CPU-bound dense embedding) =="
 $V .kb/scripts/phase2_chunker.py        # AST/section chunks

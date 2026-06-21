@@ -29,6 +29,7 @@ __pycache__/
 
 # DB backups
 *.bak
+*.bak[0-9]
 
 # OS
 .DS_Store

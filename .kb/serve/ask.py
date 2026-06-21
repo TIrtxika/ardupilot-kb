@@ -168,11 +168,46 @@ def resolve_callgraph(q):
     return None
 
 
+def resolve_message_handler(q):
+    """"what handles MAVLink X" / "where is X handled" -> message_handlers (no LLM)."""
+    if not re.search(r'\bhandl', q, re.I):
+        return None
+    for tok in re.findall(r'\b[A-Z][A-Z0-9_]{2,}\b', q):
+        rows = con.execute(
+            "SELECT DISTINCT handler, file, line FROM message_handlers WHERE msg_name=? "
+            "ORDER BY (source='case') DESC, line LIMIT 6", [tok]).fetchall()
+        if rows:
+            items = "; ".join(f"{r[0]} [{r[1]}:{r[2]}]" for r in rows)
+            return f"MAVLink message {tok} is handled by: {items}"
+    return None
+
+
+def resolve_param_binding(q):
+    """"which class/member does param X control/bind to" -> param_bindings (no LLM)."""
+    if not re.search(r'\b(bound\s+to|binds?\s+to|registered\s+to|maps?\s+to|'
+                     r'c\+\+\s*(member|variable)|(which|what)\s+(member|variable))\b', q, re.I):
+        return None
+    for tok in re.findall(r'\b[A-Z][A-Z0-9_]{2,}\b', q):
+        rows = con.execute(
+            "SELECT DISTINCT class_name, member, file, line FROM param_bindings "
+            "WHERE full_name=? OR leaf=? LIMIT 3", [tok, tok]).fetchall()
+        if rows:
+            r = rows[0]
+            return f"Parameter {tok} is bound to the C++ member {r[0]}::{r[1]} [{r[2]}:{r[3]}]."
+    return None
+
+
 def build_direct_answer(q):
     """Authoritative templated answer from the deterministic layer, or None."""
     cg = resolve_callgraph(q)
     if cg:
         return cg
+    mh = resolve_message_handler(q)
+    if mh:
+        return mh
+    pb = resolve_param_binding(q)
+    if pb:
+        return pb
     p = resolve_param(q)
     if p:
         dflt = p[2] if p[2] is not None else "none (runtime/no compiled-in default)"
