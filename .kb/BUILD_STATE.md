@@ -310,6 +310,22 @@ Effect: the correct SITL #if branches are now active -> CALL_EXPRs seen 258k -> 
 high-confidence call edges 18,604 -> 23,065 (+4,461), high-conf call share 54.7% -> 57.7%
 (resolution rate ~89.8%, ~same but on a larger correct set). serve_eval 55/55.
 
+## FINDING (2026-06-21, from hard-query test): retrieval-relevance gap
+Hard query "dual-GPS blending via GCS" pulled an IRRELEVANT chunk (ros-apriltag-detection.rst with
+EK2_* params) on a niche topic with no good match. The LLM parroted it; the auditor PASSED the
+EK2_POSNE_M_NSE=0.1 etc. claims because they ARE in the cited chunk. ROOT: the auditor verifies
+claim<->chunk grounding but NOT chunk<->question relevance. Correct answer would cite GPS_AUTO_SWITCH.
+Other hard queries were fine: GPS_TYPE @Values (direct, perfect), GPS-glitch (good), attitude->motor
+(mediocre, 8B blends layers — auditor trimmed 3). Call-graph demo works (real type-resolved callers).
+
+## Candidate next improvements (prioritized)
+- RELEVANCE-GATE (HIGH, fixes the Q4 class): drop retrieved chunks whose distance exceeds a
+  threshold (or rerank), so the LLM isn't fed irrelevant-but-token-overlapping chunks. If 0 chunks
+  survive -> "Not supported by the indexed corpus." Eval-gate on a small niche-query set.
+- EXPOSE CALL-GRAPH IN SERVE (MED-HIGH, uses #4): ask.py deterministic_facts() only does
+  param/message/symbol; add caller/callee resolution (callers_of/callees_of views) so "who calls X"
+  / "what does X call" are answered exactly from the now-richer graph instead of via the LLM.
+
 ## Open follow-ups (logged, eval-gated)
 - sem-02 (arithmetic */÷ flip) needs a stronger gen model (qwen3-30b) or code-exec check; marginal.
 - True compile_commands (full SITL build) would add the generated headers (ap_config.h, mavlink
