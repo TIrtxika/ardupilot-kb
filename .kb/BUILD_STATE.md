@@ -331,10 +331,18 @@ VERIFIED: dual-GPS now refuses (was apriltag hallucination); GOOD RTL/EKF still 
 with KB_RERANK=1 stays 55/55. Reranker reuses sentence-transformers (requirements-nli.txt); model
 downloads on first use. Opt-in (CLI pays ~load each call; ideal for a persistent server).
 
+## DONE: call-graph in serve path (2026-06-21) — uses #4 graph
+
+Added resolve_callgraph() to ask.py (in build_direct_answer, deterministic path): "who/what/which
+calls X" / "callers of X" -> callers_of; "what does X call" / "callees of X" -> callees_of. Returns
+templated caller/callee qualified names with file:line, no LLM. Matches qualified (A::b) or bare
+(LIKE %::name) symbols. Intent regexes _CG_CALLEES/_CG_CALLERS (windows widened to 60-90 chars for
+long qualified names). Gold grew 62->65: 3 graded call-graph questions (type=param_fact so
+serve_eval token-grades them; rel-callers-ahrs-lock-home, rel-callees-heli-rate-bf-to-motor,
+rel-callers-gcs-send-ahrs2), all correct via mode=direct. serve_eval 55/55 -> 58/58.
+
 ## Candidate next improvements (prioritized)
-- EXPOSE CALL-GRAPH IN SERVE (MED-HIGH, uses #4): ask.py deterministic_facts() only does
-  param/message/symbol; add caller/callee resolution (callers_of/callees_of views) so "who calls X"
-  / "what does X call" are answered exactly from the now-richer graph instead of via the LLM.
+- (system is feature-complete; remaining items are marginal — see below)
 
 ## Open follow-ups (logged, eval-gated)
 - sem-02 (arithmetic */÷ flip) needs a stronger gen model (qwen3-30b) or code-exec check; marginal.

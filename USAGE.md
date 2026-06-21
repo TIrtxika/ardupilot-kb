@@ -35,6 +35,7 @@ python3 -m venv .kb/venv
 If the KB is already built (`.kb/structured/kb.duckdb` + `.kb/index/` present):
 ```bash
 .kb/venv/bin/python3 .kb/serve/ask.py "What is the default value and range of EK3_HGT_DELAY?"
+.kb/venv/bin/python3 .kb/serve/ask.py "Which functions call NavEKF3::healthy?"   # call graph
 .kb/venv/bin/python3 .kb/serve/ask.py "How does Return to Launch (RTL) mode work in ArduCopter?"
 ```
 - **Exact-fact** questions (param default/range/units, message ID, "which file defines X")

@@ -131,8 +131,48 @@ def resolve_symbol(q):
     return None
 
 
+# "who calls X" -> callers; "what does X call" / "callees of X" -> callees. Answered deterministically
+# from the libclang-enriched callers_of/callees_of views (no LLM).
+_CG_CALLEES = re.compile(r'\bcallees?\s+of\b|\bdoes\b[^.?]{0,90}\bcalls?\b|\bcalled\s+by\b', re.I)
+_CG_CALLERS = re.compile(r'\bcallers?\s+of\b|\b(who|what|which)\b[^.?]{0,60}\bcalls?\b|'
+                         r'\bwhere\s+is\b[^.?]{0,60}\bcalled\b|\bis\s+called\s+by\b', re.I)
+_CG_SYM = re.compile(r'\b\w+::\w+\b|\b[A-Z][A-Za-z0-9_]{2,}\b|\b[a-z][a-z0-9]*_[a-z0-9_]+\b')
+
+
+def resolve_callgraph(q):
+    """Templated caller/callee answer from the call graph, or None."""
+    direction = 'callees' if _CG_CALLEES.search(q) else ('callers' if _CG_CALLERS.search(q) else None)
+    if not direction:
+        return None
+    # qualified (A::b) tokens first, then CamelCase / snake_case
+    cands = sorted(set(_CG_SYM.findall(q)), key=lambda t: (0 if '::' in t else 1, -len(t)))
+    for tok in cands:
+        if direction == 'callers':
+            rows = con.execute(
+                "SELECT DISTINCT caller_name, caller_file, caller_line FROM callers_of "
+                "WHERE callee_name = ? OR callee_name LIKE ? ORDER BY caller_name LIMIT 10",
+                [tok, '%::' + tok]).fetchall()
+            if rows:
+                items = "; ".join(f"{r[0]} [{r[1]}:{r[2]}]" for r in rows)
+                more = " (+more)" if len(rows) == 10 else ""
+                return f"Functions that call {tok}: {items}{more}"
+        else:
+            rows = con.execute(
+                "SELECT DISTINCT callee_name FROM callees_of "
+                "WHERE caller_name = ? OR caller_name LIKE ? ORDER BY callee_name LIMIT 15",
+                [tok, '%::' + tok]).fetchall()
+            if rows:
+                items = ", ".join(r[0] for r in rows)
+                more = " (+more)" if len(rows) == 15 else ""
+                return f"{tok} calls: {items}{more}"
+    return None
+
+
 def build_direct_answer(q):
     """Authoritative templated answer from the deterministic layer, or None."""
+    cg = resolve_callgraph(q)
+    if cg:
+        return cg
     p = resolve_param(q)
     if p:
         dflt = p[2] if p[2] is not None else "none (runtime/no compiled-in default)"
