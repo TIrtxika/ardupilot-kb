@@ -67,6 +67,20 @@ The judge backend is selectable with `KB_SEMANTIC_JUDGE`:
 
 ---
 
+## 2b. Persistent daemon (recommended for quality)
+
+The one-shot CLI reloads the reranker/judge models each call. The daemon keeps them warm, so the
+relevance-gate + semantic audit are cheap and **on by default**:
+```bash
+.kb/venv/bin/python3 .kb/serve/daemon.py        # http://127.0.0.1:8765 (needs requirements-nli.txt)
+# query (curl prompts; python/httpie also work):
+curl -s localhost:8765/ask -d '{"q":"How does RTL mode work in ArduCopter?"}'
+```
+Returns `{answer, mode, citations, struck, routed}`. Modes: `direct` (exact fact / call-graph,
+<1-5s), `llm` (synthesized, cited), `refused` (no relevant chunk). Env: `KB_PORT`, `KB_RERANK`,
+`KB_SEMANTIC_AUDIT`, `KB_SEMANTIC_JUDGE` (`llm` 90%-recall default, or `nli` for ~5x faster
+conceptual answers at 70% recall), `KB_GEN_MODEL`.
+
 ## 3. Rebuild the KB from scratch
 
 Only needed to (re)index or to pin a new ArduPilot commit. Run **in this order** (the symbol
