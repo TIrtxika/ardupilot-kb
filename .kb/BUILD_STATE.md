@@ -341,8 +341,25 @@ long qualified names). Gold grew 62->65: 3 graded call-graph questions (type=par
 serve_eval token-grades them; rel-callers-ahrs-lock-home, rel-callees-heli-rate-bf-to-motor,
 rel-callers-gcs-send-ahrs2), all correct via mode=direct. serve_eval 55/55 -> 58/58.
 
-## Candidate next improvements (prioritized)
-- (system is feature-complete; remaining items are marginal — see below)
+## DONE: #2 broader gold + conceptual-answer quality eval (2026-06-21)
+
+Gold grown 58->71 (+xref msg-handler/param-binding graded Qs + thin domains sub/scripting/hal).
+serve_eval 64/64 graded (100%). NEW measurement: `.kb/eval/conceptual_gold.jsonl` (10 how-it-works
+Qs, each with key_facts rubric + expect_citation) + runner `.kb/scripts/conceptual_eval.py` -> scores
+key-fact recall / grounded / false-refusal on the LLM path (previously UNMEASURED).
+BASELINE: mean key-fact recall 15% (was 10% before the prompt fix), fully-covered 0/10, grounded
+8/10, false-refusals 0/10. So conceptual answers are GROUNDED + non-hallucinatory but SHALLOW
+(rarely surface exact identifiers like SubMode::RETURN_HOME / velTestRatio / _SPE_dem).
+DIAGNOSIS (diag run): gap is BOTH retrieval (TECS pulled tuning-guide .rst over TECS.cpp, 0/4 facts
+in chunks) AND generation (RTL had 2/4 facts in chunks but the 8B model paraphrased high-level).
+FREE FIX applied: SYS prompt now demands exact identifiers from CONTEXT (10%->15%, no regression).
+
+## DONE: call-graph in serve (covered above)
+
+## Candidate next improvements (prioritized — to raise conceptual recall past 15%)
+- Bias retrieval toward CODE chunks for "how does the code work" Qs (rerank lens / chunk-type
+  boost) — fixes the TECS-docs-over-code retrieval gap.
+- qwen3-30b generation (when RAM free) — should surface more exact identifiers than llama3.1:8b.
 
 ## Open follow-ups (logged, eval-gated)
 - sem-02 (arithmetic */÷ flip) needs a stronger gen model (qwen3-30b) or code-exec check; marginal.

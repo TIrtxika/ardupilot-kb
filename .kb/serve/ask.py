@@ -425,6 +425,9 @@ SYS = (
     "Put the [file:line] citation INLINE immediately after each claim it supports. "
     "Do NOT collect citations in a trailing 'References' section. Use one [file:line] tag per "
     "citation (never a range joined with 'and'). Write in prose sentences, not a numbered list. "
+    "Be code-precise: name the SPECIFIC functions, methods, variables, enum values, and constants "
+    "that appear in the CONTEXT using their EXACT identifiers (e.g. SubMode::RETURN_HOME, "
+    "velTestRatio) rather than only general descriptions; never invent identifiers not in the CONTEXT. "
     "If the material does not contain the answer, reply exactly: "
     "'Not supported by the indexed corpus.' Do not use outside knowledge.")
 
