@@ -51,6 +51,13 @@ conceptual claims not actually supported by their cited chunk (catches ~70% of s
 hallucinations the deterministic auditor misses, 0 false positives on the adversarial set). Costs
 ~+10-20s per conceptual query on CPU; off by default. Set `KB_GEN_MODEL=qwen3-30b` if >14 GB RAM.
 
+Optional relevance-gate: set `KB_RERANK=1` to rerank retrieved chunks with a cross-encoder and
+drop those below `KB_RERANK_MIN` (default 3.5). This prevents "grounded-but-wrong-topic" answers on
+niche queries (off-topic but token-overlapping chunks) — if nothing clears the bar the answer is a
+clean refusal. Needs `pip install -r .kb/requirements-nli.txt`; downloads cross-encoder/
+ms-marco-MiniLM-L-6-v2 (~80 MB) on first use. (A fail-closed refusal on zero retrieved chunks is
+always on, regardless of this flag.)
+
 The judge backend is selectable with `KB_SEMANTIC_JUDGE`:
 - `llm` (default) — reuses the gen model; no extra deps; +10-20s/query.
 - `nli` — local NLI cross-encoder (same 70%/0-FP quality, ~100ms/pair after a one-time ~35s model

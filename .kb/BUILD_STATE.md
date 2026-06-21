@@ -318,10 +318,20 @@ claim<->chunk grounding but NOT chunk<->question relevance. Correct answer would
 Other hard queries were fine: GPS_TYPE @Values (direct, perfect), GPS-glitch (good), attitude->motor
 (mediocre, 8B blends layers — auditor trimmed 3). Call-graph demo works (real type-resolved callers).
 
+## DONE: relevance-gate (2026-06-21) — fixes the Q4 grounded-but-wrong-topic class
+
+Calibration proved bi-encoder DISTANCE can't separate good-far from bad-near (GOOD EKF chunks at
+0.733 dist vs BAD dual-GPS at 0.674 — overlap). A CROSS-ENCODER reranker CAN: rerank scores
+GOOD RTL +5.0 / EKF +6.75 / glitch +4.6 vs BAD dual-GPS +3.17. So #Q4 fixed with a reranker, not
+a distance threshold. Added `_rerank_gate()` (cross-encoder/ms-marco-MiniLM-L-6-v2) in retrieve(),
+opt-in via KB_RERANK=1, drops chunks below KB_RERANK_MIN (default 3.5), re-sorts by relevance.
+ALSO added an ALWAYS-ON fail-closed guard in respond(): a conceptual question with 0 hits ->
+"Not supported by the indexed corpus." (don't let the LLM answer from its own knowledge).
+VERIFIED: dual-GPS now refuses (was apriltag hallucination); GOOD RTL/EKF still answer; serve_eval
+with KB_RERANK=1 stays 55/55. Reranker reuses sentence-transformers (requirements-nli.txt); model
+downloads on first use. Opt-in (CLI pays ~load each call; ideal for a persistent server).
+
 ## Candidate next improvements (prioritized)
-- RELEVANCE-GATE (HIGH, fixes the Q4 class): drop retrieved chunks whose distance exceeds a
-  threshold (or rerank), so the LLM isn't fed irrelevant-but-token-overlapping chunks. If 0 chunks
-  survive -> "Not supported by the indexed corpus." Eval-gate on a small niche-query set.
 - EXPOSE CALL-GRAPH IN SERVE (MED-HIGH, uses #4): ask.py deterministic_facts() only does
   param/message/symbol; add caller/callee resolution (callers_of/callees_of views) so "who calls X"
   / "what does X call" are answered exactly from the now-richer graph instead of via the LLM.

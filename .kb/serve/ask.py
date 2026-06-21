@@ -185,6 +185,28 @@ def deterministic_facts(q):
     return out[:20]
 
 
+_RERANK = None
+
+
+def _rerank_gate(q, hits):
+    """Relevance-gate (#Q4 fix, KB_RERANK=1): cross-encoder re-scores query<->chunk relevance and
+    DROPS chunks below KB_RERANK_MIN (default 3.5). Bi-encoder distance can't separate a good-but-
+    far chunk from an off-topic-but-token-overlapping one; the cross-encoder can. If nothing clears
+    the bar -> [] -> the LLM gets no context -> refuses (avoids grounded-but-wrong-topic answers)."""
+    global _RERANK
+    try:
+        if _RERANK is None:
+            from sentence_transformers import CrossEncoder
+            _RERANK = CrossEncoder(os.environ.get('KB_RERANK_MODEL', 'cross-encoder/ms-marco-MiniLM-L-6-v2'))
+        thr = float(os.environ.get('KB_RERANK_MIN', '3.5'))
+        scores = _RERANK.predict([(q, h[4]) for h in hits])
+        kept = [(h, float(s)) for h, s in zip(hits, scores) if float(s) >= thr]
+        kept.sort(key=lambda x: -x[1])
+        return [h for h, _ in kept]
+    except Exception:
+        return hits  # fail open: never worse than no gate
+
+
 def retrieve(q, k=6):
     routed = classify_query(q)
     qv = embed(q)
@@ -198,7 +220,10 @@ def retrieve(q, k=6):
                 ['source_path', 'start_line', 'end_line', 'text', '_distance']).limit(k).to_list():
             hits.append((r['_distance'], r['source_path'], r['start_line'], r['end_line'], r['text']))
     hits.sort(key=lambda x: x[0])
-    return routed, hits[:k]
+    hits = hits[:k]
+    if os.environ.get('KB_RERANK') == '1' and hits:
+        hits = _rerank_gate(q, hits)
+    return routed, hits
 
 
 # ── Deterministic retrieval-auditor (rule #4: no LLM, fail closed) ───────────────
@@ -343,6 +368,12 @@ def respond(q):
     if direct:
         return {'q': q, 'routed': routed, 'facts': facts, 'hits': hits,
                 'draft': direct, 'final': direct, 'mode': 'direct', 'struck': 0, 'log': []}
+    # Fail-closed: a conceptual question with NO relevant chunks (e.g. relevance-gate dropped all)
+    # must NOT be answered from the LLM's own knowledge — refuse rather than hallucinate.
+    if not hits:
+        msg = "Not supported by the indexed corpus."
+        return {'q': q, 'routed': routed, 'facts': facts, 'hits': hits,
+                'draft': msg, 'final': msg, 'mode': 'refused', 'struck': 0, 'log': []}
     ctx = "\n".join(f"[{sp}:{s}-{e}] {txt[:400]}" for _, sp, s, e, txt in hits)
     factblock = "\n".join(facts) if facts else "(none)"
     prompt = f"{SYS}\n\nFACTS:\n{factblock}\n\nCONTEXT:\n{ctx}\n\nQUESTION: {q}\n\nAnswer:"
