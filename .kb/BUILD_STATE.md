@@ -2,13 +2,30 @@
 
 Snapshot of where the ArduPilot KB build stands. Use this to resume in a later session.
 
-_Last updated: 2026-06-18_
+_Last updated: 2026-11-09_ (state as of commit `28cd354`, 2026-06-21; no build work since)
 
-**Published:** https://github.com/TIrtxika/ardupilot-kb (public, branch `main`, commit `0f548fe`+).
+## Current state at a glance (resume here)
+
+- **All phases 0–3 DONE; Phase 4 (LoRA) gated OFF** — no measured gap that justifies it.
+- **Serve path complete:** `.kb/serve/ask.py` (CLI) + `.kb/serve/daemon.py` (persistent HTTP,
+  `POST /ask`). Deterministic direct answers for params / messages / symbols / call graph /
+  message handlers / param bindings; LLM path only for conceptual questions, gated by the
+  deterministic auditor + semantic judge + relevance-gate (reranker).
+- **Latest numbers** (from `.kb/eval/eval_report_serve.json` and `conceptual_eval2.log`, both 2026-06-21):
+  - Deterministic direct path: serve eval 64/64 graded (100%) on 71 gold, refusals 0/71.
+    **Caveat:** by_mode = direct 63/63, llm 1/1 — this 100% measures the table-backed templated
+    answers, NOT the local LLM. One graded item is not evidence about generation quality.
+  - Local LLM path: the only real measurement is `conceptual_eval` (10 Qs): key-fact recall **15%**,
+    fully covered 0/10, grounded 8/10, false refusals 0/10. Plus the auditor set (semantic_eval,
+    20 Qs): catch-unsupported recall 90%, 0 FP. Small samples — treat as indicative.
+- **Main open gap:** LLM-path answers are grounded but shallow, and the LLM path is under-measured.
+  See "Candidate next improvements".
+
+**Published:** https://github.com/TIrtxika/ardupilot-kb (public, branch `main`, head `28cd354`).
 Runtime artifacts committed (`.kb/structured/kb.duckdb` + `.kb/index/lancedb/`) so a fresh clone
 runs immediately — no re-index needed. corpus/venv/chunks/bm25 are gitignored (rebuild via USAGE.md).
-Note: a 95.6 MB `.lance` file exceeds GitHub's recommended 50 MB; if a future re-index pushes any
-file past 100 MB, switch `*.lance` to Git LFS. Setup/usage: see `USAGE.md`.
+After the repack (`503eef5`) the largest `.lance` file is ~29 MB (under GitHub's 50 MB advice).
+If a future re-index pushes any file past 100 MB, switch `*.lance` to Git LFS. Setup/usage: `USAGE.md`.
 
 ## Pinned source (hard rule #7)
 
@@ -21,9 +38,11 @@ file past 100 MB, switch `*.lance` to Git LFS. Setup/usage: see `USAGE.md`.
 
 ## Local models (pinned in .claude/settings.json)
 
-- Generation: `qwen3-30b` (Qwen3-30B-A3B MoE) — installed, NOT yet exercised
+- Generation: `llama3.1:8b` (pinned `KB_GEN_MODEL`; 4.9 GB, ~24 tok/s CPU). `qwen3-30b` is
+  preferred but needs >14 GB free RAM (timed out at ~12 GB free); ask.py falls back to llama3.1:8b.
 - Embeddings: `bge-m3`, 1024-dim — installed, verified, used to build the index
-- Reranker: not deployed (Phase 2)
+- Reranker: `cross-encoder/ms-marco-MiniLM-L-6-v2` (sentence-transformers, CPU) as relevance-gate;
+  opt-in in CLI (`KB_RERANK=1`), default-ON in the daemon. NLI judge (`nli-deberta-v3-base`) opt-in.
 - Hardware: AMD Phoenix APU, ~512 MB VRAM, 30 GB RAM → CPU inference
 - Ollama 0.23.2: no `ollama embed` CLI; embed via HTTP `POST /api/embed`
 
@@ -37,9 +56,10 @@ file past 100 MB, switch `*.lance` to Git LFS. Setup/usage: see `USAGE.md`.
 | 2 — AST/section chunking | DONE — 40,058 chunks |
 | 2 — BM25 lexical index | DONE |
 | 2 — dense embedding (bge-m3) into LanceDB | DONE — 40,058/40,058, 0 fails |
-| 2 — vector + hybrid eval | **NOT RUN** — next step |
-| 3 — per-domain indices + router | DONE — KEEP (vector@5 47.8%→84.8%) |
+| 2 — vector + hybrid eval | DONE — vector reported per phase; RRF fusion measured (diag_hybrid) and REGRESSES, not shipped |
+| 3 — per-domain indices + router | DONE — KEEP (vector@5 47.8%→84.8%, later 89.1%) |
 | 3 — held-out validation (overfit check) | DONE — router generalizes, NOT overfit |
+| Serve — ask.py + daemon + auditor + direct answers | DONE — direct path 63/63; LLM path conceptual recall 15% (10 Qs) |
 | 4 — LoRA | gated OFF — retrieval strong, deterministic layer 100%, no measured gap |
 
 ## Held-out validation (20 Q, never tuned on) — eval_report_phase3_heldout.json
@@ -88,13 +108,11 @@ naive whitespace tokenization splits `ins_tcal1_tmax` so leaf token no longer ma
 SECONDARY signal NOT in the served path (fusion was shown to hurt concept, see above), so impact
 is cosmetic. Fix later via BM25 tokenizer (split on `_`/punctuation) as its own measured pass.
 
-### Remaining genuine (non-refuted) fixes, eval-gated
-- **CPU reranker** (cross-encoder over dense top-N): the only tool that addresses mis-ranked-
-   but-present items. Slow on CPU; mostly helps deterministic-answered Qs. Experiment, measure.
-- **param group-prefix data fix** (params.group empty): real correctness defect — names should
-   be qualified (ATC_ANG_MAX not ANG_MAX). Deterministic-layer fix; re-cascades to chunks/gold.
-- **.h vs .cpp localization nudge:** 1 item (loc-ac-attitudecontrol .h at @10). Marginal.
-- Phase-1 symbol-grapher gap: missing class bodies (AP_Scheduler, AP_GPS, AP_AHRS, ...).
+### Remaining genuine (non-refuted) fixes, eval-gated — status as of 2026-06-21
+- ~~CPU reranker~~ — DONE as relevance-gate (see 2026-06-21 section).
+- ~~param group-prefix data fix~~ — DONE (section above).
+- **.h vs .cpp localization nudge:** 1 item (loc-ac-attitudecontrol .h at @10). Marginal. OPEN.
+- ~~Phase-1 symbol-grapher gap~~ — DONE (preproc descent + libclang augmentation).
 
 ## Serve path (.kb/serve/ask.py) — BUILT + tested 2026-06-17
 
@@ -341,6 +359,23 @@ long qualified names). Gold grew 62->65: 3 graded call-graph questions (type=par
 serve_eval token-grades them; rel-callers-ahrs-lock-home, rel-callees-heli-rate-bf-to-motor,
 rel-callers-gcs-send-ahrs2), all correct via mode=direct. serve_eval 55/55 -> 58/58.
 
+## DONE: #1 persistent serve daemon (2026-06-21, `d113963`)
+
+`.kb/serve/daemon.py` — HTTP daemon that keeps the reranker (and NLI judge if selected) loaded
+across requests, so relevance-gate + semantic audit are cheap and default-ON there.
+`POST /ask` -> {answer, mode, citations, struck, routed}. Measured: call-graph 0.8 s, niche refusal
+5.1 s (rerank warm). Env knobs: KB_PORT / KB_RERANK / KB_SEMANTIC_AUDIT / KB_SEMANTIC_JUDGE /
+KB_GEN_MODEL. Usage in `USAGE.md`.
+
+## DONE: #3 cross-reference layer (2026-06-21, `9eba02d`)
+
+`.kb/structured/build_xref_tables.py` (wired into rebuild.sh) adds two deterministic tables:
+`message_handlers` (291 rows, 94 messages: msg -> handler file:line) and `param_bindings`
+(2,471 rows, ~95% matched: param full_name -> Class::member). Serve resolvers
+`resolve_message_handler` ("what handles MAVLink X") and `resolve_param_binding` ("which C++
+member does X bind to") answer without the LLM. serve_eval 58/58. Out of scope: param -> readers
+(needs field-read tracking / compile_commands).
+
 ## DONE: #2 broader gold + conceptual-answer quality eval (2026-06-21)
 
 Gold grown 58->71 (+xref msg-handler/param-binding graded Qs + thin domains sub/scripting/hal).
@@ -354,9 +389,10 @@ DIAGNOSIS (diag run): gap is BOTH retrieval (TECS pulled tuning-guide .rst over 
 in chunks) AND generation (RTL had 2/4 facts in chunks but the 8B model paraphrased high-level).
 FREE FIX applied: SYS prompt now demands exact identifiers from CONTEXT (10%->15%, no regression).
 
-## DONE: call-graph in serve (covered above)
-
 ## Candidate next improvements (prioritized — to raise conceptual recall past 15%)
+- FIRST, measure the LLM path properly (rule #2): grow `conceptual_gold.jsonl` well past 10 Qs
+  and/or add graded gold items that route to mode=llm. Today serve_eval has 1 graded LLM item,
+  so any LLM-path change below cannot be gated by serve_eval.
 - Bias retrieval toward CODE chunks for "how does the code work" Qs (rerank lens / chunk-type
   boost) — fixes the TECS-docs-over-code retrieval gap.
 - qwen3-30b generation (when RAM free) — should surface more exact identifiers than llama3.1:8b.
@@ -365,26 +401,33 @@ FREE FIX applied: SYS prompt now demands exact identifiers from CONTEXT (10%->15
 - sem-02 (arithmetic */÷ flip) needs a stronger gen model (qwen3-30b) or code-exec check; marginal.
 - True compile_commands (full SITL build) would add the generated headers (ap_config.h, mavlink
   generated dialects) for the last few %; deferred — fragile on g++16/clang22, marginal gain.
-- compile_commands-grade call resolution (vs current best-effort 90.7%) if a SITL build is set up.
-- Grow gold with localization Qs for now-recovered classes (AP_AHRS/AP_GPS/AP_Scheduler) to lock the win.
-- Router over-fires to all 13 domains for `EK3_`-style param-prefix queries — add prefix->domain rule.
-- BM25 tokenizer cleanup (split on _/punct) — BM25 is a secondary, non-served signal.
+- compile_commands-grade call resolution (vs current best-effort ~90%) if a SITL build is set up.
+- Grow gold with localization Qs for now-recovered classes (AP_AHRS/AP_GPS/AP_Scheduler) to lock
+  the win — still OPEN (gold has only a call-graph Q on AP_AHRS, no localization Q).
+- Relationship gold answers were built on pre-libclang edges — regenerate before exact relationship grading.
+- param -> readers cross-reference (needs field-read tracking / compile_commands).
+- settings.json deny rule blocks writing manifests into `.kb/corpus/`; consider narrowing it.
 - qwen3-30b generation needs >14 GB free RAM; llama3.1:8b is the working fallback.
-- Auditor limitation: deterministic checks catch fabricated numbers/citations/speculation, NOT
-  semantically-wrong-but-token-present claims; an LLM judge or NLI pass could add semantic checks.
 
-## Artifacts
+Closed since the June log: router param-prefix rule (#1), BM25 tokenizer (#6), semantic auditor
+(#3), CPU reranker (relevance-gate), symbol-grapher class-body gap, params.group prefix.
 
-- `.kb/structured/kb.duckdb` — symbols 21,003 · edges 24,599 · params 3,406 · messages 3,642 · build_info
-- `.kb/eval/gold.jsonl` — 53 tunable · `.kb/eval/gold_heldout.jsonl` — 20 held-out (NEVER tune on held-out)
-- `.kb/chunks/{cpp,rst,param,message}_chunks.jsonl` — 40,058 total (cpp 25,758 · rst 10,340 · param 3,406 · msg 554)
-- `.kb/index/lancedb/` — dense index (40,058 × 1024-dim), table `chunks`
+## Artifacts (DB/index counts verified 2026-11-09 against the committed files)
+
+- `.kb/structured/kb.duckdb` — symbols 63,539 · edges 83,966 · params 3,406 · messages 3,642 ·
+  message_handlers 291 · param_bindings 2,471 · build_info 6. Views: callers_of, callees_of,
+  definition_of, members_of, subclasses_of.
+- `.kb/eval/gold.jsonl` — 71 tunable · `gold_heldout.jsonl` — 20 held-out (NEVER tune on held-out)
+  · `conceptual_gold.jsonl` — 10 (key_facts rubric) · `semantic_gold.jsonl` — 20 (adversarial auditor set)
+- `.kb/chunks/{cpp,rst,param,message}_chunks.jsonl` — 40,058 total (gitignored; rebuilt by rebuild.sh)
+- `.kb/index/lancedb/` — 10 tables: global `chunks` (40,058 × 1024-dim) + per-domain tables
+- Serve: `.kb/serve/ask.py` (CLI), `.kb/serve/daemon.py` (HTTP). Full pipeline: `.kb/rebuild.sh`.
 - `.kb/index/bm25/bm25.pkl` — BM25 (avgdl 80.1)
 - `.kb/index/manifest.json` — index version 2.0 metadata
 - `.kb/MANIFEST.json`, `.kb/inventory.json` — corpus provenance (in .kb/, not .kb/corpus/, due to read-only deny rule)
 - Scripts: `.kb/scripts/phase2_chunker.py`, `phase2_indexer.py` (resumable via `--resume`), `phase2_eval.py`, `build_params_messages.py`
 
-## Phase 2 baseline (FULL — this is the number Phase 3 must beat)
+## Phase 2 baseline (historical — the number Phase 3 had to beat)
 
 Measured 2026-06-17 on the complete 40,058-chunk index (`.kb/eval/eval_report_phase2.json`).
 
@@ -398,19 +441,5 @@ Deterministic layer: exact-fact 35/35, localization 18/18, grounding 100%, hallu
 Per-type vector@5: concept 1/9 (WEAK — message chunks drown in global index),
 localization 12/18, param_fact 9/19, relationship N/A (answered by deterministic layer).
 
-Note: eval reports vector and BM25 separately; a fused hybrid (RRF) score is NOT yet computed.
-
-## NEXT STEP (resume here)
-
-Phase 3 — per-domain indices + router. Reuse the existing embeddings (every chunk has a
-`domain` tag) — partition by domain, do NOT re-embed. Build the domain-classifier router,
-re-run eval routed-per-domain, and compare deltas vs the Phase 2 baseline above. The concept/
-comms weakness is the primary thing routing should fix.
-
-## Known follow-ups (eval-gated, do NOT do mid-index)
-
-- symbol-grapher gap: missing class-body symbols for `AP_Scheduler`, `AP_GPS`, `AP_Compass`,
-  `AP_AHRS`, `AP_BattMonitor`, `AP_RangeFinder`, `AC_Fence`, `AC_AutoTune` (only forward-decls).
-- `params.group` column empty → param names lack group prefix (e.g. `ANG_MIN` not `ATC_ANG_MIN`).
-- settings.json deny rule blocks writing manifests into `.kb/corpus/`; consider narrowing it.
-- Reranker deferred; deploy a sentence-transformers CPU reranker only if eval justifies it.
+Note: this baseline reports vector and BM25 separately; RRF fusion was later measured in
+`diag_hybrid.py` and regressed (see retrieval-bug investigation), so it was not shipped.

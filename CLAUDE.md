@@ -53,11 +53,12 @@ local embeddings. Do not introduce any cloud-runtime dependency into the system 
 - Generation: Ollama — Qwen 3.6 27B (balanced) or Devstral Small 24B (agentic). Qwen3 8B on low VRAM.
 
 **Pinned for this deployment** (AMD Phoenix APU, ~512 MB VRAM, 30 GB RAM → CPU inference; see
-`.claude/settings.json`): generation `qwen3-30b` (Qwen3-30B-**A3B** MoE, ~3B active → CPU-fast),
+`.claude/settings.json`): generation `llama3.1:8b` (works on CPU; `qwen3-30b` is preferred but
+needs >14 GB free RAM — set `KB_GEN_MODEL=qwen3-30b` when available, ask.py falls back),
 embeddings `bge-m3` (hybrid dense+sparse, CPU-feasible). The aspirational `Qwen3-Embedding-8B`
 is too heavy for CPU here; `Qwen3-Embedding-0.6B` is the code-optimized upgrade path if eval
-shows BGE-M3 underperforms on code retrieval. Reranker deferred (Ollama serves rerankers poorly;
-use a `sentence-transformers` CPU reranker if/when eval justifies it).
+shows BGE-M3 underperforms on code retrieval. Reranker: `sentence-transformers` CPU cross-encoder
+(`ms-marco-MiniLM-L-6-v2`) as relevance-gate, `KB_RERANK=1` (default-ON in the daemon).
 
 ## Dev vs runtime — what may use cloud
 
@@ -91,10 +92,15 @@ Do not substitute cloud models there to "unblock" — re-order work instead.
 
 ## Current repository state
 
-This repo currently contains **only the scaffold**: `CLAUDE.md`, `README.md`, and `.claude/`
-(7 subagents, 5 skills, 4 slash commands, `settings.json`). It is **not a git repo** and the
-entire `.kb/` tree is **generated, not committed** — it does not exist until you run `/ingest`.
-Do not assume the corpus, DuckDB, or indices are present; check, and build them in phase order.
+Phases 0–3 and the serve path are **built**; Phase 4 (LoRA) is gated off. The repo is a git repo
+(remote `origin` = github.com/TIrtxika/ardupilot-kb). **Read `.kb/BUILD_STATE.md` first** — it is
+the authoritative build log, with current eval numbers, open follow-ups and the "resume here" summary.
+
+Committed runtime artifacts: `.kb/structured/kb.duckdb` and `.kb/index/lancedb/`, so a fresh clone
+can serve without re-indexing. Gitignored, rebuilt by `.kb/rebuild.sh`: `.kb/corpus/`, `.kb/venv/`,
+`.kb/chunks/`, BM25. Rebuild order matters: `build_symbol_graph.py` deletes the whole DB, so it
+must be followed by the rest of the pipeline (use `rebuild.sh`, do not run steps alone).
+Serve: `.kb/serve/ask.py` (CLI), `.kb/serve/daemon.py` (HTTP `POST /ask`). Setup: `USAGE.md`.
 
 ## Commands & conventions
 
@@ -108,7 +114,7 @@ There is no compiler/linter/unit-test suite for this repo. **The eval set is the
 - `/ask <question>` — full query path (route → retrieve → ground → audit), mirrors `.kb/serve/`.
 
 Canonical names come from `.claude/settings.json` env, not from prose — keep them consistent:
-`KB_ROOT=.kb`, `KB_EMBED_MODEL=Qwen3-Embedding-8B`, `KB_GEN_MODEL=qwen3:27b`,
+`KB_ROOT=.kb`, `KB_EMBED_MODEL=bge-m3`, `KB_GEN_MODEL=llama3.1:8b`,
 `KB_VECTOR_STORE=lancedb`. The single structured store is `.kb/structured/kb.duckdb`.
 
 Guardrails enforced by `settings.json`: `.kb/corpus/**` is **read-only** (Write/Edit denied) —
